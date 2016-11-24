@@ -19,13 +19,13 @@ public class QnaController {
     @PostMapping("/qna/create")
     public String create(Qna qna){
         qnaList.add(qna);
-        return "redirect:/qnas";
+        return "redirect:/";
     }
 
-    @GetMapping("/qnas")
+    @GetMapping("/")
     public String qnas(Model model){
         System.out.println(qnaList);
         model.addAttribute("qnas", qnaList);
-        return "/qna/qnas";
+        return "/index";
     }
 }
