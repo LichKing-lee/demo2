@@ -26,6 +26,6 @@ public class QnaController {
     public String qnas(Model model){
         System.out.println(qnaList);
         model.addAttribute("qnas", qnaList);
-        return "/qna/index";
+        return "/qna/qnas";
     }
 }
