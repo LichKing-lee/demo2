@@ -4,15 +4,11 @@ package com.example.model;
  * Created by LichKing on 2016. 11. 24..
  */
 public class User {
-    private Integer userNo;
     private String userId;
     private String password;
     private String name;
     private String email;
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -27,10 +23,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Integer getUserNo() {
-        return userNo;
     }
 
     public String getUserId() {

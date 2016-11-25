@@ -18,7 +18,6 @@ public class UserController {
     @PostMapping("/user/create")
     public String create(User user){
         System.out.println("userId :: " + user);
-        user.setUserNo(userList.size());
         userList.add(user);
         return "redirect:/users";
     }
@@ -30,17 +29,25 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}/form")
-    public String modify(@PathVariable Integer id, Model model){
-        model.addAttribute("user", userList.get(id));
-        System.out.println(userList.get(id));
-        return "/user/updateForm";
+    public String modify(@PathVariable String id, Model model){
+        for(User user : userList){
+            if(user.getUserId().equals(id)){
+                model.addAttribute("user", user);
+                return "/user/updateForm";
+            }
+        }
+
+        throw new IllegalArgumentException("id 잘못 넘어옴");
     }
 
     @PostMapping("/users/{id}/update")
-    public String update(@PathVariable Integer id, User user, Model model){
-        if(userList.get(id).getPassword().equals(user.getPassword())){
-            user.setUserNo(id);
-            userList.set(id, user);
+    public String update(@PathVariable String id, User user, Model model){
+        for(User user1 : userList){
+            if(user1.getUserId().equals(id) && user1.getPassword().equals(user.getPassword())){
+                user1.setEmail(user.getEmail());
+                user1.setName(user.getName());
+                user1.setUserId(user.getUserId());
+            }
         }
 
         model.addAttribute("users", userList);
