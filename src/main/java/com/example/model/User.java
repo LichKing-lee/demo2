@@ -1,10 +1,23 @@
 package com.example.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Created by LichKing on 2016. 11. 24..
  */
+@Entity
 public class User {
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @Column(unique = true, nullable = false, length = 20)
     private String userId;
+
+    @Column(nullable = false, length = 20)
     private String password;
     private String name;
     private String email;
