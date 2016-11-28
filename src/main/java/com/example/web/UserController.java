@@ -11,25 +11,30 @@ import java.util.List;
 /**
  * Created by LichKing on 2016. 11. 24..
  */
-@Controller
+@Controller("/users")
 public class UserController {
     private List<User> userList = new ArrayList<>();
 
-    @PostMapping("/user/create")
+    @GetMapping("/form")
+    public String form(){
+        return "/user/form";
+    }
+
+    @PostMapping("")
     public String create(User user){
         System.out.println("userId :: " + user);
         userList.add(user);
         return "redirect:/users";
     }
 
-    @GetMapping("/users")
+    @GetMapping("")
     public String list(Model model){
         model.addAttribute("users", userList);
 
         return "/user/list";
     }
 
-    @GetMapping("/users/{id}/form")
+    @GetMapping("/{id}/form")
     public String modify(@PathVariable String id, Model model){
         for(User user : userList){
             if(user.getUserId().equals(id)){
@@ -41,7 +46,7 @@ public class UserController {
         throw new IllegalArgumentException("id 잘못 넘어옴");
     }
 
-    @PostMapping("/users/{id}/update")
+    @PostMapping("/{id}/update")
     public String update(@PathVariable String id, User user, Model model){
         for(User user1 : userList){
             if(user1.getUserId().equals(id) && user1.getPassword().equals(user.getPassword())){

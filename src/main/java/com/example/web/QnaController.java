@@ -16,6 +16,11 @@ import java.util.List;
 public class QnaController {
     private List<Qna> qnaList = new ArrayList<>();
 
+    @GetMapping("/qna/form")
+    public String form(){
+        return "/qna/form";
+    }
+
     @PostMapping("/qna/create")
     public String create(Qna qna){
         qnaList.add(qna);
@@ -24,7 +29,6 @@ public class QnaController {
 
     @GetMapping("/")
     public String qnas(Model model){
-        System.out.println(qnaList);
         model.addAttribute("qnas", qnaList);
         return "/index";
     }
