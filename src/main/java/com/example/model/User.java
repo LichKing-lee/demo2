@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class User {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @Column(unique = true, nullable = false, length = 20)
     private String userId;
@@ -52,6 +52,13 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public void change(User user){
+        if(this.password.equals(user.password)) {
+            this.email = user.email;
+            this.name = user.name;
+        }
     }
 
     @Override

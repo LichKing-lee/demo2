@@ -7,10 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * Created by LichKing on 2016. 11. 24..
  */
@@ -40,37 +36,20 @@ public class UserController {
     }
 
     @GetMapping("/{id}/form")
-    public String modify(@PathVariable String id, Model model){
-        Iterable<User> userList = userRepository.findAll();
-        Iterator<User> userIterator = userList.iterator();
+    public String modify(@PathVariable Long id, Model model){
+        User user = userRepository.findOne(id);
 
-        while(userIterator.hasNext()){
-            User user = userIterator.next();
-            if(user.getUserId().equals(id)){
-                model.addAttribute("user", user);
-                return "/user/updateForm";
-            }
-        }
-
-        throw new IllegalArgumentException("id 잘못 넘어옴");
+        model.addAttribute("user", user);
+        return "/user/updateForm";
     }
 
     @PostMapping("/{id}/update")
-    public String update(@PathVariable String id, User user, Model model){
-        Iterable<User> userIterable = userRepository.findAll();
-        Iterator<User> userIterator = userIterable.iterator();
+    public String update(@PathVariable Long id, User user, Model model){
+        User user1 = userRepository.findOne(id);
+        user1.change(user);
+        userRepository.save(user1);
 
-        while(userIterator.hasNext()){
-            User user1 = userIterator.next();
-            if(user1.getUserId().equals(id) && user1.getPassword().equals(user.getPassword())){
-                user1.setEmail(user.getEmail());
-                user1.setName(user.getName());
-                user1.setUserId(user.getUserId());
-                userRepository.save(user1);
-            }
-        }
-
-        model.addAttribute("users", userIterable);
-        return "/user/list";
+        model.addAttribute("users", userRepository.findAll());
+        return "redirect:/users";
     }
 }
