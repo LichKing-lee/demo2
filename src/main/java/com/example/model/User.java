@@ -55,10 +55,14 @@ public class User {
     }
 
     public void change(User user){
-        if(this.password.equals(user.password)) {
+        if(this.isEqualsPassword(user)) {
             this.email = user.email;
             this.name = user.name;
         }
+    }
+
+    private boolean isEqualsPassword(User user){
+        return this.password.equals(user.password);
     }
 
     @Override
