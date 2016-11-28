@@ -11,7 +11,8 @@ import java.util.List;
 /**
  * Created by LichKing on 2016. 11. 24..
  */
-@Controller("/users")
+@Controller
+@RequestMapping("/users")
 public class UserController {
     private List<User> userList = new ArrayList<>();
 
