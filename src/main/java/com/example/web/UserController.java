@@ -52,4 +52,9 @@ public class UserController {
         model.addAttribute("users", userRepository.findAll());
         return "redirect:/users";
     }
+
+    @GetMapping("/login")
+    public String login(){
+        return "/user/login";
+    }
 }
