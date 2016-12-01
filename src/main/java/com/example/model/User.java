@@ -65,6 +65,10 @@ public class User {
         return this.password.equals(user.password);
     }
 
+    public boolean isEqualsId(Long id){
+        return this.id.equals(id);
+    }
+
     @Override
     public String toString() {
         return "User{" +

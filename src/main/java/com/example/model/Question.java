@@ -1,8 +1,6 @@
 package com.example.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by LichKing on 2016. 11. 24..
@@ -11,6 +9,10 @@ import javax.persistence.Id;
 public class Question {
     @Id
     private long id;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
+    private User user;
 
     @Column(nullable = false, length = 20)
     private String writer;

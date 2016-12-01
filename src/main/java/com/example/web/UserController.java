@@ -20,6 +20,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    private static final String SESSION_KEY = "loginUser";
+
     @GetMapping("/form")
     public String form(){
         return "/user/form";
@@ -27,7 +29,6 @@ public class UserController {
 
     @PostMapping("")
     public String create(User user){
-        System.out.println("userId :: " + user);
         userRepository.save(user);
         return "redirect:/users";
     }
@@ -40,15 +41,21 @@ public class UserController {
     }
 
     @GetMapping("/{id}/form")
-    public String modify(@PathVariable Long id, Model model){
-        User user = userRepository.findOne(id);
+    public String modify(@PathVariable Long id, Model model, HttpSession session){
+        if(!isValidLoginUser(session, id)){
+            return "redirect:/users/login";
+        }
 
-        model.addAttribute("user", user);
+        model.addAttribute("user", userRepository.findOne(id));
         return "/user/updateForm";
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, User user, Model model){
+    public String update(@PathVariable Long id, User user, Model model, HttpSession session){
+        if(!isValidLoginUser(session, id)){
+            return "redirect:/users/login";
+        }
+
         User user1 = userRepository.findOne(id);
         user1.change(user);
         userRepository.save(user1);
@@ -82,11 +89,18 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/modify")
-    public String loginModify(HttpSession session, Model model){
-        User user = (User) session.getAttribute("loginUser");
-        model.addAttribute("user", userRepository.findByUserId(user.getUserId()));
+    private boolean isValidLoginUser(HttpSession session, Long id){
+        Object sessionUser = session.getAttribute("loginUser");
 
-        return "/user/updateForm";
+        if(sessionUser == null){
+            return false;
+        }
+
+        User dbUser = (User) sessionUser;
+        if(!dbUser.isEqualsId(id)){
+            return false;
+        }
+
+        return true;
     }
 }
