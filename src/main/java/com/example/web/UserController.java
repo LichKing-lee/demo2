@@ -2,6 +2,7 @@ package com.example.web;
 
 import com.example.model.User;
 import com.example.model.UserRepository;
+import com.example.utils.LoginUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    private static final String SESSION_KEY = "loginUser";
+    public static final String SESSION_KEY = "loginUser";
 
     @GetMapping("/form")
     public String form(){
@@ -42,7 +43,7 @@ public class UserController {
 
     @GetMapping("/{id}/form")
     public String modify(@PathVariable Long id, Model model, HttpSession session){
-        if(!isValidLoginUser(session, id)){
+        if(!LoginUtils.isValidLoginUser(session.getAttribute(SESSION_KEY), id)){
             return "redirect:/users/login";
         }
 
@@ -52,7 +53,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public String update(@PathVariable Long id, User user, Model model, HttpSession session){
-        if(!isValidLoginUser(session, id)){
+        if(!LoginUtils.isValidLoginUser(session.getAttribute(SESSION_KEY), id)){
             return "redirect:/users/login";
         }
 
@@ -87,20 +88,5 @@ public class UserController {
         session.removeAttribute("loginUser");
 
         return "redirect:/";
-    }
-
-    private boolean isValidLoginUser(HttpSession session, Long id){
-        Object sessionUser = session.getAttribute("loginUser");
-
-        if(sessionUser == null){
-            return false;
-        }
-
-        User dbUser = (User) sessionUser;
-        if(!dbUser.isEqualsId(id)){
-            return false;
-        }
-
-        return true;
     }
 }
