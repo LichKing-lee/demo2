@@ -74,4 +74,19 @@ public class UserController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("loginUser");
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/modify")
+    public String loginModify(HttpSession session, Model model){
+        User user = (User) session.getAttribute("loginUser");
+        model.addAttribute("user", userRepository.findByUserId(user.getUserId()));
+
+        return "/user/updateForm";
+    }
 }
