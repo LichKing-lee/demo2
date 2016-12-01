@@ -8,14 +8,12 @@ import javax.persistence.*;
 @Entity
 public class Question {
     @Id
-    private long id;
+    @GeneratedValue
+    private Long id;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
     private User user;
-
-    @Column(nullable = false, length = 20)
-    private String writer;
 
     @Column(nullable = false, length = 30)
     private String title;
@@ -23,9 +21,9 @@ public class Question {
     @Column(nullable = false)
     private String contents;
 
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
+    public void setId(Long id){this.id = id;}
+
+    public void setUser(User user){this.user = user;}
 
     public void setTitle(String title) {
         this.title = title;
@@ -38,7 +36,7 @@ public class Question {
     @Override
     public String toString() {
         return "Question{" +
-                "writer='" + writer + '\'' +
+                "user='" + user + '\'' +
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
                 '}';

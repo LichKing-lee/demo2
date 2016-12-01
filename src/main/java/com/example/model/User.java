@@ -1,9 +1,7 @@
 package com.example.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by LichKing on 2016. 11. 24..
@@ -21,6 +19,8 @@ public class User {
     private String password;
     private String name;
     private String email;
+
+    public void setId(Long id){this.id = id;}
 
     public void setUserId(String userId) {
         this.userId = userId;
