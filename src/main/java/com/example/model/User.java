@@ -61,7 +61,7 @@ public class User {
         }
     }
 
-    private boolean isEqualsPassword(User user){
+    public boolean isEqualsPassword(User user){
         return this.password.equals(user.password);
     }
 

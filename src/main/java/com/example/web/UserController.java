@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Optional;
+
 /**
  * Created by LichKing on 2016. 11. 24..
  */
@@ -54,7 +58,20 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String loginForm(){
         return "/user/login";
+    }
+
+    @PostMapping("/login")
+    public String login(User user, HttpSession session){
+        User user1 = userRepository.findByUserId(user.getUserId());
+
+        if(user1 == null || !user1.isEqualsPassword(user)){
+            return "redirect:/users/login";
+        }
+
+        session.setAttribute("loginUser", user1);
+
+        return "redirect:/";
     }
 }
