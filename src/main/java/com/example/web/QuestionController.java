@@ -17,6 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/question")
 public class QuestionController {
+    public static final String REDIRECT_QUESTION = "redirect:/question/";
     @Autowired
     private QuestionRepository questionRepository;
     @Autowired
@@ -46,15 +47,25 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}/form")
-    public String modify(@PathVariable Long id, Model model){
-        model.addAttribute("question", questionRepository.findOne(id));
+    public String modify(@PathVariable Long id, Model model, HttpSession session){
+        Question question = questionRepository.findOne(id);
+        if(!LoginUtils.isValidLoginUser(session.getAttribute(UserController.SESSION_KEY), question.getUser().getId())){
+            return REDIRECT_QUESTION + id;
+        }
+
+        model.addAttribute("question", question);
 
         return "/qna/updateForm";
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, Question question){
+    public String update(@PathVariable Long id, Question question, HttpSession session){
         Question dbQuestion = questionRepository.findOne(id);
+
+        if(!LoginUtils.isValidLoginUser(session.getAttribute(UserController.SESSION_KEY), dbQuestion.getUser().getId())){
+            return REDIRECT_QUESTION + id;
+        }
+
         dbQuestion.change(question);
         questionRepository.save(dbQuestion);
 
@@ -62,7 +73,12 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id, HttpSession session){
+        Question question = questionRepository.findOne(id);
+        if(!LoginUtils.isValidLoginUser(session.getAttribute(UserController.SESSION_KEY), question.getUser().getId())){
+            return REDIRECT_QUESTION + id;
+        }
+
         List<Answer> answers = answerRepository.findByQuestionId(id);
         answerRepository.delete(answers);
         questionRepository.delete(id);

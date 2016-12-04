@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/question/{questionId}/answers")
 public class AnswerController {
-    private static final String QUESTION_PREFIX = "redirect:/question/";
     @Autowired
     private QuestionRepository questionRepository;
     @Autowired
@@ -24,7 +23,7 @@ public class AnswerController {
     @PostMapping
     public String create(@PathVariable Long questionId, Answer answer, HttpSession session){
         if(!LoginUtils.hasLoginUser(session.getAttribute(UserController.SESSION_KEY))){
-            return QUESTION_PREFIX + questionId;
+            return QuestionController.REDIRECT_QUESTION + questionId;
         }
 
         User user = (User) session.getAttribute(UserController.SESSION_KEY);
@@ -33,7 +32,7 @@ public class AnswerController {
         answer.setUser(user);
         answer.setQuestion(question);
         answerRepository.save(answer);
-        return QUESTION_PREFIX + questionId;
+        return QuestionController.REDIRECT_QUESTION + questionId;
     }
 
     @GetMapping("/{id}/form")
@@ -41,7 +40,7 @@ public class AnswerController {
         Answer answer = answerRepository.findOne(id);
 
         if(!LoginUtils.isValidLoginUser(session.getAttribute(UserController.SESSION_KEY), answer.getUser().getId())){
-            return QUESTION_PREFIX + questionId;
+            return QuestionController.REDIRECT_QUESTION + questionId;
         }
 
         model.addAttribute("question", questionRepository.findOne(questionId));
@@ -55,24 +54,24 @@ public class AnswerController {
         Answer dbAnswer = answerRepository.findOne(id);
 
         if(!LoginUtils.isValidLoginUser(session.getAttribute(UserController.SESSION_KEY), dbAnswer.getUser().getId())){
-            return QUESTION_PREFIX + questionId;
+            return QuestionController.REDIRECT_QUESTION + questionId;
         }
 
         dbAnswer.change(answer);
         answerRepository.save(dbAnswer);
 
-        return QUESTION_PREFIX + questionId;
+        return QuestionController.REDIRECT_QUESTION + questionId;
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long questionId, @PathVariable Long id, HttpSession session){
         Answer answer = answerRepository.findOne(id);
         if(!LoginUtils.isValidLoginUser(session.getAttribute(UserController.SESSION_KEY), answer.getUser().getId())){
-            return QUESTION_PREFIX + questionId;
+            return QuestionController.REDIRECT_QUESTION + questionId;
         }
 
         answerRepository.delete(id);
 
-        return QUESTION_PREFIX + questionId;
+        return QuestionController.REDIRECT_QUESTION + questionId;
     }
 }

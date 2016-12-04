@@ -40,6 +40,10 @@ public class Question {
         this.contents = contents;
     }
 
+    public User getUser(){
+        return this.user;
+    }
+
     public void change(Question question){
         this.title = question.title;
         this.contents = question.contents;
