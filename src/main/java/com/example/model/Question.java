@@ -39,4 +39,9 @@ public class Question {
     public void setContents(String contents) {
         this.contents = contents;
     }
+
+    public void change(Question question){
+        this.title = question.title;
+        this.contents = question.contents;
+    }
 }
