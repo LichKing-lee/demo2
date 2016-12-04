@@ -17,8 +17,18 @@ public class User {
 
     @Column(nullable = false, length = 20)
     private String password;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private List<Question> questions;
+
+    @OneToMany(mappedBy = "user")
+    private List<Answer> answers;
 
     public void setId(Long id){this.id = id;}
 
@@ -38,20 +48,12 @@ public class User {
         this.email = email;
     }
 
+    public void setQuestions(List<Question> questions) { this.questions = questions; }
+
+    public void setAnswers(List<Answer> answers) { this.answers = answers; }
+
     public String getUserId() {
         return userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public void change(User user){
@@ -67,15 +69,5 @@ public class User {
 
     public boolean isEqualsId(Long id){
         return this.id.equals(id);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

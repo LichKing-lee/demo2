@@ -1,6 +1,7 @@
 package com.example.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by LichKing on 2016. 11. 24..
@@ -15,15 +16,21 @@ public class Question {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
     private User user;
 
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers;
+
     @Column(nullable = false, length = 30)
     private String title;
 
     @Column(nullable = false)
+    @Lob
     private String contents;
 
     public void setId(Long id){this.id = id;}
 
     public void setUser(User user){this.user = user;}
+
+    public void setAnswers(List<Answer> answers){this.answers = answers;}
 
     public void setTitle(String title) {
         this.title = title;
@@ -31,14 +38,5 @@ public class Question {
 
     public void setContents(String contents) {
         this.contents = contents;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" +
-                "user='" + user + '\'' +
-                ", title='" + title + '\'' +
-                ", contents='" + contents + '\'' +
-                '}';
     }
 }
