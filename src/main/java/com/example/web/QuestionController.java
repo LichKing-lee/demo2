@@ -1,8 +1,6 @@
 package com.example.web;
 
-import com.example.model.Question;
-import com.example.model.QuestionRepository;
-import com.example.model.User;
+import com.example.model.*;
 import com.example.utils.LoginUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +19,8 @@ import java.util.List;
 public class QuestionController {
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private AnswerRepository answerRepository;
 
     @GetMapping("/form")
     public String form(HttpSession session){
@@ -57,6 +57,15 @@ public class QuestionController {
         Question dbQuestion = questionRepository.findOne(id);
         dbQuestion.change(question);
         questionRepository.save(dbQuestion);
+
+        return "redirect:/question/" + id;
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id){
+        List<Answer> answers = answerRepository.findByQuestionId(id);
+        answerRepository.delete(answers);
+        questionRepository.delete(id);
 
         return "redirect:/";
     }
