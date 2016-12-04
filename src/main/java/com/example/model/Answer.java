@@ -40,6 +40,10 @@ public class Answer {
         this.contents = contents;
     }
 
+    public User getUser(){
+        return this.user;
+    }
+
     public void change(Answer answer){
         this.contents = answer.contents;
     }

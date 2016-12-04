@@ -22,9 +22,15 @@ public class MainController {
     private UserRepository userRepository;
 
     @GetMapping
-    public String main(Model model, HttpSession session){
-        session.setAttribute("loginUser", userRepository.findByUserId("lcy1111"));
+    public String main(Model model){
         model.addAttribute("questions", questionRepository.findAll());
         return "/index";
+    }
+
+    @GetMapping("/session")
+    public String test(HttpSession session){
+        session.setAttribute("loginUser", userRepository.findByUserId("lcy1111"));
+
+        return "redirect:/";
     }
 }

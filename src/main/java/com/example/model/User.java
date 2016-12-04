@@ -56,6 +56,10 @@ public class User {
         return userId;
     }
 
+    public Long getId(){
+        return this.id;
+    }
+
     public void change(User user){
         if(this.isEqualsPassword(user)) {
             this.email = user.email;
