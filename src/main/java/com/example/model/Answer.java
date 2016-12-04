@@ -39,4 +39,8 @@ public class Answer {
     public void setContents(String contents){
         this.contents = contents;
     }
+
+    public void change(Answer answer){
+        this.contents = answer.contents;
+    }
 }
