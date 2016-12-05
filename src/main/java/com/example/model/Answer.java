@@ -1,5 +1,7 @@
 package com.example.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.annotation.Generated;
 import javax.persistence.*;
 
@@ -10,18 +12,22 @@ import javax.persistence.*;
 public class Answer {
     @Id
     @GeneratedValue
+    @JsonProperty
     private Long id;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_question"))
+    @JsonProperty
     private Question question;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_writer"))
+    @JsonProperty
     private User user;
 
     @Column(nullable = false)
     @Lob
+    @JsonProperty
     private String contents;
 
     public void setId(Long id){

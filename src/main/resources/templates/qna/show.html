@@ -72,7 +72,7 @@
                                           <a class="link-modify-article" href="/question/{{question.id}}/answers/{{id}}/form">수정</a>
                                       </li>
                                       <li>
-                                          <form class="form-delete" action="/question/{{question.id}}/answers/{{id}}" method="POST">
+                                          <form class="form-delete" action="/api/question/{{question.id}}/answers/{{id}}" method="POST">
                                               <input type="hidden" name="_method" value="DELETE">
                                               <button type="submit" class="link-delete-article">삭제</button>
                                           </form>
@@ -81,11 +81,11 @@
                               </div>
                           </article>
                           {{/answers}}
-                          <form class="submit-write" method="post" action="/question/{{id}}/answers">
+                          <form class="answer-write" method="post" action="/api/question/{{id}}/answers">
                               <div class="form-group" style="padding:14px;">
                                   <textarea class="form-control" placeholder="Update your status" name="contents"></textarea>
                               </div>
-                              <button class="btn btn-success pull-right" type="submit">답변하기</button>
+                              <input class="btn btn-success pull-right" type="submit" value="답변하기"/>
                               <div class="clearfix" />
                           </form>
                       </div>
@@ -116,7 +116,7 @@
 				<a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
 			</li>
 			<li>
-				<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
+				<form class="form-delete" action="/api/question/{3}/answers/{4}" method="POST">
 					<input type="hidden" name="answerId" value="{4}" />
 					<button type="submit" class="link-delete-article">삭제</button>
 				</form>

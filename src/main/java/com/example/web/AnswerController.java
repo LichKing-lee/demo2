@@ -3,6 +3,7 @@ package com.example.web;
 import com.example.model.*;
 import com.example.utils.LoginUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +13,8 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by LichKing on 2016. 12. 3..
  */
-@Controller
-@RequestMapping("/question/{questionId}/answers")
+@RestController
+@RequestMapping("/api/question/{questionId}/answers")
 public class AnswerController {
     @Autowired
     private QuestionRepository questionRepository;
@@ -21,9 +22,9 @@ public class AnswerController {
     private AnswerRepository answerRepository;
 
     @PostMapping
-    public String create(@PathVariable Long questionId, Answer answer, HttpSession session){
+    public Answer create(@PathVariable Long questionId, Answer answer, HttpSession session){
         if(!LoginUtils.hasLoginUser(session.getAttribute(UserController.SESSION_KEY))){
-            return QuestionController.REDIRECT_QUESTION + questionId;
+            return null;
         }
 
         User user = (User) session.getAttribute(UserController.SESSION_KEY);
@@ -31,8 +32,7 @@ public class AnswerController {
 
         answer.setUser(user);
         answer.setQuestion(question);
-        answerRepository.save(answer);
-        return QuestionController.REDIRECT_QUESTION + questionId;
+        return answerRepository.save(answer);
     }
 
     @GetMapping("/{id}/form")
@@ -64,14 +64,14 @@ public class AnswerController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long questionId, @PathVariable Long id, HttpSession session){
+    public ResponseEntity<Answer> delete(@PathVariable Long questionId, @PathVariable Long id, HttpSession session){
         Answer answer = answerRepository.findOne(id);
         if(!LoginUtils.isValidLoginUser(session.getAttribute(UserController.SESSION_KEY), answer.getUser().getId())){
-            return QuestionController.REDIRECT_QUESTION + questionId;
+            throw new IllegalStateException("User Unvalid");
         }
 
         answerRepository.delete(id);
 
-        return QuestionController.REDIRECT_QUESTION + questionId;
+        return ResponseEntity.ok(new Answer());
     }
 }

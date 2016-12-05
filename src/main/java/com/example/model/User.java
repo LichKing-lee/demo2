@@ -1,5 +1,7 @@
 package com.example.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class User {
     private Long id;
 
     @Column(unique = true, nullable = false, length = 20)
+    @JsonProperty
     private String userId;
 
     @Column(nullable = false, length = 20)
@@ -23,12 +26,6 @@ public class User {
 
     @Column
     private String email;
-
-    @OneToMany(mappedBy = "user")
-    private List<Question> questions;
-
-    @OneToMany(mappedBy = "user")
-    private List<Answer> answers;
 
     public void setId(Long id){this.id = id;}
 
@@ -47,10 +44,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public void setQuestions(List<Question> questions) { this.questions = questions; }
-
-    public void setAnswers(List<Answer> answers) { this.answers = answers; }
 
     public String getUserId() {
         return userId;
