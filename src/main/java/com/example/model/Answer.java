@@ -30,6 +30,9 @@ public class Answer {
     @JsonProperty
     private String contents;
 
+    @Column(nullable = false)
+    private boolean deleted;
+
     public void setId(Long id){
         this.id = id;
     }
@@ -52,5 +55,9 @@ public class Answer {
 
     public void change(Answer answer){
         this.contents = answer.contents;
+    }
+
+    public void delete(){
+        this.deleted = true;
     }
 }

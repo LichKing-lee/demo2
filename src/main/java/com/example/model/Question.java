@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Question {
     private User user;
 
     @OneToMany(mappedBy = "question")
+    @Where(clause = "deleted = false")
     private List<Answer> answers;
 
     @Column(nullable = false, length = 30)

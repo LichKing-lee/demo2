@@ -23,7 +23,7 @@ $(".answer-write input[type='submit']").on("click", function (e) {
     });
 });
 
-$(".form-delete button[type='submit']").on("click", function(e){
+$(".qna-comment-slipp-articles").on("click", ".form-delete button[type='submit']", function(e){
     e.preventDefault();
     var url = $(e.target).parent().attr("action");
 

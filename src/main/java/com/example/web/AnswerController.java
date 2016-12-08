@@ -71,7 +71,8 @@ public class AnswerController {
             return Result.fail("Unvalid User");
         }
 
-        answerRepository.delete(id);
+        answer.delete();
+        answerRepository.save(answer);
 
         return Result.ok();
     }
