@@ -31,11 +31,16 @@ $(".form-delete button[type='submit']").on("click", function(e){
         url : url,
         method : "delete",
         dataType : "json",
-        success : function(){
+        success : function(result){
+            if(!result.valid){
+                alert(result.errorMessage);
+                return;
+            }
+
             $(e.target).parent().parent().parent().parent().parent().remove();
         },
         error : function(){
-            alert("fail!!!");
+            alert("fail");
         }
     });
 });

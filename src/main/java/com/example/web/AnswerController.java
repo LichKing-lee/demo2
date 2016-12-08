@@ -64,14 +64,15 @@ public class AnswerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Answer> delete(@PathVariable Long questionId, @PathVariable Long id, HttpSession session){
+    public Result delete(@PathVariable Long questionId, @PathVariable Long id, HttpSession session){
         Answer answer = answerRepository.findOne(id);
+
         if(!LoginUtils.isValidLoginUser(session.getAttribute(UserController.SESSION_KEY), answer.getUser().getId())){
-            throw new IllegalStateException("User Unvalid");
+            return Result.fail("Unvalid User");
         }
 
         answerRepository.delete(id);
 
-        return ResponseEntity.ok(new Answer());
+        return Result.ok();
     }
 }
