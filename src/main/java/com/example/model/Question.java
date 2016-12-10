@@ -1,9 +1,13 @@
 package com.example.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.OrderBy;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +26,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question")
     @Where(clause = "deleted = false")
+    @OrderBy("id asc")
     private List<Answer> answers;
 
     @Column(nullable = false, length = 30)
@@ -30,6 +35,12 @@ public class Question {
     @Column(nullable = false)
     @Lob
     private String contents;
+
+//    @Column(nullable = false)
+//    private Date registerDatetime;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted;
 
     public void setId(Long id){this.id = id;}
 
@@ -52,5 +63,9 @@ public class Question {
     public void change(Question question){
         this.title = question.title;
         this.contents = question.contents;
+    }
+
+    public void delete(){
+        this.deleted = true;
     }
 }

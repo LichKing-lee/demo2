@@ -30,7 +30,7 @@ public class Answer {
     @JsonProperty
     private String contents;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
     public void setId(Long id){

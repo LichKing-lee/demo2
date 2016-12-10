@@ -14,7 +14,9 @@ $(".answer-write input[type='submit']").on("click", function (e) {
             var template = answerTemplate.format(data.user.userId, "", data.contents, data.question.id,
                 data.id);
 
-            $(".qna-comment-slipp-articles").prepend(template);
+            //$(".qna-comment-slipp-articles .answer-write").prepend(template);
+            $("#articles").append(template);
+            $(".qna-comment-count").html("<strong>" + $("#articles article").length + "</strong>개의 의견");
             $("textarea[name=contents]").val("");
         },
         error: function () {
@@ -38,6 +40,7 @@ $(".qna-comment-slipp-articles").on("click", ".form-delete button[type='submit']
             }
 
             $(e.target).parent().parent().parent().parent().parent().remove();
+            $(".qna-comment-count").html("<strong>" + $("#articles article").length + "</strong>개의 의견");
         },
         error : function(){
             alert("fail");

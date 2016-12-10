@@ -7,4 +7,4 @@ INSERT INTO user(user_id, password, name, email) VALUES('lcy1115', '123456', 'ch
 INSERT INTO question(contents, title, user_id) VALUES('hello aaa', 'aaa', 1);
 INSERT INTO question(contents, title, user_id) VALUES('hello abc', 'abc', 1);
 
-INSERT INTO answer(contents, question_id, user_id, deleted) VALUES('asd', 1, 1, false);
+INSERT INTO answer(contents, question_id, user_id) VALUES('asd', 1, 1);

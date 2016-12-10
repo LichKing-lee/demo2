@@ -23,7 +23,7 @@ public class MainController {
 
     @GetMapping
     public String main(Model model){
-        model.addAttribute("questions", questionRepository.findAll());
+        model.addAttribute("questions", questionRepository.findByDeletedOrderByIdDesc(false));
         return "/index";
     }
 
